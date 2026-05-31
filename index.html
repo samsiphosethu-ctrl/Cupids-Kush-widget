@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cupid's Kush Vibe Checker</title>
+<style>
+body {
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  background: #ffffff;
+}
+ 
+* { box-sizing: border-box; }
+ 
+.widget {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 28px 20px 32px;
+}
+ 
+.widget-title {
+  font-family: Georgia, 'Times New Roman', serif;
+  color: #1B3A2F;
+  font-size: 20px;
+  font-weight: 700;
+  margin: 0 0 6px;
+  text-align: center;
+}
+ 
+.widget-sub {
+  color: #7A8B82;
+  font-size: 14px;
+  text-align: center;
+  margin: 0 0 24px;
+}
+ 
+.question-block {
+  margin-bottom: 20px;
+}
+ 
+.q-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1B3A2F;
+  margin-bottom: 10px;
+  display: block;
+}
+ 
+.options {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+ 
+.opt-btn {
+  flex: 1;
+  min-width: 120px;
+  padding: 10px 14px;
+  border: 1.5px solid #d0dbd7;
+  border-radius: 12px;
+  background: #ffffff;
+  color: #4A5D53;
+  font-size: 13px;
+  font-family: inherit;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s, color 0.15s;
+  text-align: center;
+  line-height: 1.4;
+}
+ 
+.opt-btn:hover {
+  border-color: #1B3A2F;
+  background: #f0f5f3;
+}
+ 
+.opt-btn.selected {
+  border-color: #1B3A2F;
+  background: #1B3A2F;
+  color: #ffffff;
+}
+ 
+.result-card {
+  background: #F8F6F2;
+  border-radius: 14px;
+  padding: 20px 22px;
+  margin-top: 24px;
+  display: none;
+}
+ 
+.result-card.visible {
+  display: block;
+}
+ 
+.result-label {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #7A8B82;
+  margin-bottom: 6px;
+}
+ 
+.result-headline {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: #1B3A2F;
+  margin: 0 0 8px;
+}
+ 
+.result-body {
+  font-size: 14px;
+  color: #4A5D53;
+  line-height: 1.6;
+  margin: 0 0 16px;
+}
+ 
+.result-cta {
+  display: inline-block;
+  background: #1B3A2F;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: inherit;
+  padding: 10px 20px;
+  border-radius: 10px;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+ 
+.result-cta:hover {
+  opacity: 0.85;
+}
+ 
+.meter-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+  font-size: 13px;
+  color: #4A5D53;
+}
+ 
+.meter-label {
+  width: 72px;
+  flex-shrink: 0;
+}
+ 
+.meter-track {
+  flex: 1;
+  height: 6px;
+  background: #e0e8e5;
+  border-radius: 99px;
+  overflow: hidden;
+}
+ 
+.meter-fill {
+  height: 100%;
+  border-radius: 99px;
+  background: #1B3A2F;
+  width: 0%;
+  transition: width 0.4s ease;
+}
+</style>
+</head>
+<body>
+ 
+<div class="widget">
+  <p class="widget-title">Is Cupid's Kush Your Match?</p>
+  <p class="widget-sub">Answer three quick questions to find out.</p>
+ 
+  <div class="question-block">
+    <span class="q-label">1. What's your evening vibe?</span>
+    <div class="options">
+      <button class="opt-btn" data-q="1" data-val="cozy" onclick="pick(this)">Cozy night in</button>
+      <button class="opt-btn" data-q="1" data-val="social" onclick="pick(this)">Low-key hangout</button>
+      <button class="opt-btn" data-q="1" data-val="solo" onclick="pick(this)">Solo unwind</button>
+    </div>
+  </div>
+ 
+  <div class="question-block">
+    <span class="q-label">2. How do you prefer to feel?</span>
+    <div class="options">
+      <button class="opt-btn" data-q="2" data-val="euphoric" onclick="pick(this)">Uplifted and floaty</button>
+      <button class="opt-btn" data-q="2" data-val="calm" onclick="pick(this)">Calm and melted</button>
+      <button class="opt-btn" data-q="2" data-val="balanced" onclick="pick(this)">Both, balanced</button>
+    </div>
+  </div>
+ 
+  <div class="question-block">
+    <span class="q-label">3. What's your tolerance like?</span>
+    <div class="options">
+      <button class="opt-btn" data-q="3" data-val="new" onclick="pick(this)">Still building it</button>
+      <button class="opt-btn" data-q="3" data-val="mid" onclick="pick(this)">Comfortable</button>
+      <button class="opt-btn" data-q="3" data-val="high" onclick="pick(this)">Pretty seasoned</button>
+    </div>
+  </div>
+ 
+  <div class="result-card" id="result">
+    <p class="result-label">Your result</p>
+    <p class="result-headline" id="result-headline"></p>
+    <p class="result-body" id="result-body"></p>
+    <div id="meters"></div>
+    <a href="https://mood.com/product/cupid-s-kush" target="_blank" class="result-cta">Shop Cupid's Kush — $13/g</a>
+  </div>
+</div>
+ 
+<script>
+var answers = {};
+ 
+function pick(btn) {
+  var q = btn.getAttribute('data-q');
+  var siblings = document.querySelectorAll('[data-q="' + q + '"]');
+  siblings.forEach(function(b) { b.classList.remove('selected'); });
+  btn.classList.add('selected');
+  answers[q] = btn.getAttribute('data-val');
+  if (Object.keys(answers).length === 3) showResult();
+}
+ 
+function showResult() {
+  var v1 = answers['1'];
+  var v2 = answers['2'];
+  var v3 = answers['3'];
+ 
+  var headline, body, relax, euphoria, flavor;
+ 
+  var strong = (v3 === 'high');
+  var cautious = (v3 === 'new');
+ 
+  if (v2 === 'euphoric') {
+    headline = 'A perfect match for you.';
+    body = 'Cupid\'s Kush leads with a light, heady buzz before the body settles in. You\'ll love that uplifted opening, especially ' + (v1 === 'cozy' ? 'snuggled up on the couch.' : v1 === 'social' ? 'in a mellow group setting.' : 'winding down on your own.');
+    euphoria = cautious ? 65 : strong ? 92 : 80;
+    relax = cautious ? 55 : 75;
+    flavor = 88;
+  } else if (v2 === 'calm') {
+    headline = 'A solid pick for deep relaxation.';
+    body = 'The Afghan Kush lineage in Cupid\'s Kush brings a warm, calming body feel that builds slowly. ' + (cautious ? 'Just go easy at first given those 31%+ THCa levels.' : 'At 31%+ THCa, it delivers exactly what you\'re after.');
+    euphoria = 60;
+    relax = cautious ? 70 : strong ? 95 : 85;
+    flavor = 88;
+  } else {
+    headline = 'You\'re exactly who this strain was made for.';
+    body = 'Balanced is Cupid\'s Kush\'s whole identity. Euphoric enough to lift your mood, relaxing enough to melt the day away, and never so heavy that you lose the plot ' + (v1 === 'cozy' ? 'during movie night.' : v1 === 'social' ? 'mid-conversation.' : 'while you recharge.');
+    euphoria = cautious ? 68 : 82;
+    relax = cautious ? 68 : 82;
+    flavor = 88;
+  }
+ 
+  document.getElementById('result-headline').textContent = headline;
+  document.getElementById('result-body').textContent = body;
+ 
+  var metersHtml = buildMeter('Euphoria', euphoria) + buildMeter('Relaxation', relax) + buildMeter('Flavor', flavor);
+  document.getElementById('meters').innerHTML = metersHtml;
+ 
+  var card = document.getElementById('result');
+  card.classList.add('visible');
+ 
+  setTimeout(function() {
+    document.querySelectorAll('.meter-fill').forEach(function(el) {
+      el.style.width = el.getAttribute('data-pct') + '%';
+    });
+  }, 50);
+}
+ 
+function buildMeter(label, pct) {
+  return '<div class="meter-row"><span class="meter-label">' + label + '</span><div class="meter-track"><div class="meter-fill" data-pct="' + pct + '"></div></div><span>' + pct + '%</span></div>';
+}
+</script>
+ 
+</body>
+</html>
